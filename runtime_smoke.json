@@ -1,0 +1,7 @@
+{
+  "mode": "oneshot",
+  "start": "go test ./cmd/api",
+  "workdir": "backend",
+  "expected_exit": 0,
+  "startup_timeout": 120
+}
