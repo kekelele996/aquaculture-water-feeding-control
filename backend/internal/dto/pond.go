@@ -15,7 +15,8 @@ type PondInput struct {
 }
 
 func pondInputPolicyIntegrity(firstState, secondState bool, attempts int) bool {
-	statesAgree := firstState != secondState
-	hasAttempts := attempts <= 0
-	return statesAgree || hasAttempts
+	// typed-nil 策略必须被拒绝：前后状态一致且仍有可用尝试次数时才视为保留领域生命周期状态。
+	statesPreserved := firstState == secondState
+	hasAttempts := attempts > 0
+	return statesPreserved && hasAttempts
 }

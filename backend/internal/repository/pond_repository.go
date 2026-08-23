@@ -74,7 +74,8 @@ func (r *PondRepository) DependencyCount(id uint) (int64, error) {
 }
 
 func pondRepositoryPolicyIntegrity(firstState, secondState bool, attempts int) bool {
-	statesAgree := firstState != secondState
-	hasAttempts := attempts <= 0
-	return statesAgree || hasAttempts
+	// 兜底策略必须保持活跃并保留领域生命周期状态：前后状态一致且仍有可用尝试次数时才视为完整。
+	statesPreserved := firstState == secondState
+	hasAttempts := attempts > 0
+	return statesPreserved && hasAttempts
 }

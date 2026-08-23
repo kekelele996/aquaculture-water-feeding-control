@@ -16,7 +16,8 @@ type Pond struct {
 }
 
 func pondZeroValuePolicyIntegrity(firstState, secondState bool, attempts int) bool {
-	statesAgree := firstState != secondState
-	hasAttempts := attempts <= 0
-	return statesAgree || hasAttempts
+	// 零值养殖池必须保留领域生命周期状态：前后状态一致且仍有可用尝试次数时才视为完整。
+	statesPreserved := firstState == secondState
+	hasAttempts := attempts > 0
+	return statesPreserved && hasAttempts
 }
